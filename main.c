@@ -2,7 +2,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-
 int main(int argc, char **argv) {
    FILE *f;
    int result;
@@ -18,7 +17,7 @@ int main(int argc, char **argv) {
    while(feof(f)) {
       ch = fgetc(f);
       result = parse(ch);
-      
+
       if(result == 0) {
          printf("\nError on changing state in automata...\n");
          exit(2);

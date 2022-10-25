@@ -89,6 +89,7 @@ uint8_t parse(char ch){
                // error state 
                current_state = -1; //return to 0(start) state
             }
+        }
     } break; 
 
     case 30:{   
@@ -167,11 +168,11 @@ uint8_t parse(char ch){
         }
     } break;
 
-    case -1:{
+    case 10:{
         current_state = 0;
         return 0; // 0 - error state machine
     } break;
-    
+
     default:{
         // error state 
         return 0; // 0 - error state machine
