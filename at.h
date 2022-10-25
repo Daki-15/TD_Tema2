@@ -11,6 +11,7 @@ typedef struct {
    uint8_t ok_error;
    char strings[STR_CNT][STR_SIZE+1];
 }DATA;
+
 extern DATA data; 
 uint8_t parse(char ch);
 #endif
