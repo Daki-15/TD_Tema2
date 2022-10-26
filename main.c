@@ -1,6 +1,17 @@
 #include "at.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
+/*
+void print(DATA data){
+    int i = 0;
+    
+    while(*data.strings[i] == '\0'){
+        //printf("%lu", (unsigned long)data.line_count);
+        printf("%s", data.strings[i]);
+        i++;
+    }
+}*/
 
 int main(int argc, char **argv) {
    FILE *f;
@@ -14,8 +25,9 @@ int main(int argc, char **argv) {
       exit(1);
    }
 
-   while(feof(f)) {
+   while(!feof(f)) {
       ch = fgetc(f);
+      //printf("%c", ch);
       result = parse(ch);
 
       if(result == 0) {
@@ -26,6 +38,11 @@ int main(int argc, char **argv) {
 
    if(result == 1) {
       // protocol ok
+      printf("OK");
+      //print(data);
+      
+      //printf("\n%lu", (unsigned long)data.line_count);
+      //printf("\n%u", (unsigned)data.ok_error);
       // print result (struct...)
       // print(data); <- functie 
    }
