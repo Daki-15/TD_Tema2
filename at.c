@@ -10,22 +10,22 @@ DATA data;
 uint8_t parse(char ch){
    //o variabila care tine minte starea curenta a automatului
    static uint8_t current_state = 0;
-   data.line_count = 0;
-   uint8_t _count=0;
+   data.line_count= 0;
+   static int _count=0;
 
    switch (current_state) {
     case 0:{
         if(ch == 13){ // CR
+            strcpy(data.strings[_count++], "<CH>\0");
             current_state = 1;
-            strcpy(data.strings[_count++], "<CH>");
         }
     } break; 
 
     case 1:{
         if(ch == 10){ // LF
-            current_state = 2;
-            strcpy(data.strings[_count++], "<LF>");
+            strcpy(data.strings[_count++], "<LF>\0");
             data.line_count++;
+            current_state = 2;
         }
         else{
            // state error
@@ -36,16 +36,17 @@ uint8_t parse(char ch){
     case 2: {
          switch (ch) {
            case '+': {
+                strcpy(data.strings[_count++], "+\0");
                 current_state = 20;
-                strcpy(data.strings[_count++], "+");
+
             } break;
             case 'O': {
+               strcpy(data.strings[_count++], "O\0");
                current_state = 30;
-               strcpy(data.strings[_count++], "O");
             } break; 
             case 'E': {
+               strcpy(data.strings[_count++], "E\0");
                current_state = 40;
-               strcpy(data.strings[_count++], "E");
             } break;
             default: {
                // error state 
@@ -56,20 +57,20 @@ uint8_t parse(char ch){
 
     case 20:{
         if(ch == 13){ //CR
+            strcpy(data.strings[_count++], "<CH>\0");
             current_state = 21;
-            strcpy(data.strings[_count++], "<CH>");
         }
         else{// ch != CR or LF
-           current_state = 20;
            strncat(data.strings[_count++], &ch, 1);
+           current_state = 20;
         }
     } break;
 
     case 21:{
         if(ch == 10){ // LF
-            current_state = 22;
-            strcpy(data.strings[_count++], "<LF>");
+            strcpy(data.strings[_count++], "<LF>\0");
             data.line_count++;
+            current_state = 22;
         }
         else{
             // state error
@@ -80,12 +81,14 @@ uint8_t parse(char ch){
     case 22:{
         switch(ch){
             case 13:{ //CR
+                strcpy(data.strings[_count++], "<CH>\0");
                 current_state = 23;
-                strcpy(data.strings[_count++], "<CH>");
+
             } break;
             case 43:{ // '+'
+                strcpy(data.strings[_count++], "+\0");
                 current_state = 20;
-                strcpy(data.strings[_count++], "+");
+
             } break;
             default:
                 // state error
@@ -95,9 +98,9 @@ uint8_t parse(char ch){
 
     case 23:{
         if(ch == 10){ // LF
-            current_state = 24;
-            strcpy(data.strings[_count++], "<LF>");
+            strcpy(data.strings[_count++], "<LF>\0");
             data.line_count++;
+            current_state = 24;
         }
         else{
             // state error
@@ -108,12 +111,14 @@ uint8_t parse(char ch){
     case 24:{
         switch (ch) {
            case 'O': {
+                strcpy(data.strings[_count++], "O\0");
                 current_state = 30;
-                strcpy(data.strings[_count++], "O");
+
             } break;
             case 'E': {
+               strcpy(data.strings[_count++], "E\0");
                current_state = 40;
-               strcpy(data.strings[_count++], "E");
+
             } break;
             default: {
                // error state 
@@ -124,9 +129,9 @@ uint8_t parse(char ch){
 
     case 30:{   
         if(ch == 75){ // 'K'
-            current_state = 31;
             data.line_count++;
-            strcpy(data.strings[_count++], "K");
+            strcpy(data.strings[_count++], "K\0");
+            current_state = 31;
         }
         else{
             // state error
@@ -136,8 +141,8 @@ uint8_t parse(char ch){
 
     case 31:{   
         if(ch == 13){ // CR
+            strcpy(data.strings[_count++], "<CH>\0");
             current_state = 32;
-            strcpy(data.strings[_count++], "<CH>");
         }
         else{
             // state error
@@ -147,9 +152,9 @@ uint8_t parse(char ch){
 
     case 32:{   
         if(ch == 10){ // LF
-            current_state = 33;
-            strcpy(data.strings[_count++], "<LF>");
+            strcpy(data.strings[_count++], "<LF>\0");
             data.line_count++;
+            current_state = 33;
         }
         else{
             // state error
@@ -164,8 +169,8 @@ uint8_t parse(char ch){
 
     case 40:{   
         if(ch == 82){ // 'R'
+            strcpy(data.strings[_count++], "R\0");
             current_state = 41;
-            strcpy(data.strings[_count++], "R");
         }
         else{
             // state error
@@ -175,8 +180,8 @@ uint8_t parse(char ch){
 
     case 41:{   
         if(ch == 82){ // 'R'
+            strcpy(data.strings[_count++], "R\0");
             current_state = 42;
-            strcpy(data.strings[_count++], "R");
         }
         else{
             // state error
@@ -186,8 +191,8 @@ uint8_t parse(char ch){
 
     case 42:{   
         if(ch == 79){ // 'O'
+            strcpy(data.strings[_count++], "O\0");
             current_state = 43;
-            strcpy(data.strings[_count++], "O");
         }
         else{
             // state error
@@ -197,8 +202,8 @@ uint8_t parse(char ch){
 
     case 43:{   
         if(ch == 82){ // 'R'
+            strcpy(data.strings[_count++], "R\0");
             current_state = 44;
-            strcpy(data.strings[_count++], "R");
         }
         else{
             // state error
@@ -208,8 +213,8 @@ uint8_t parse(char ch){
 
     case 44:{   
         if(ch == 13){ // CR
+            strcpy(data.strings[_count++], "<CH>\0");
             current_state = 32;
-            strcpy(data.strings[_count++], "<CH>");
         }
         else{
             // state error
@@ -218,15 +223,15 @@ uint8_t parse(char ch){
     } break;
 
     case 10:{
-        current_state = 0;
         _count=0;
+        current_state = 0;
         return 0; // 0 - error state machine
     } break;
 
     default:{
         // error state 
-        current_state = 0;
         _count=0;
+        current_state = 0;
         return 0; // 0 - error state machine
     }
     }

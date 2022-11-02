@@ -2,16 +2,17 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-/*
-void print(DATA data){
-    int i = 0;
+
+void print(){
+   int i=0;
+   
+   while (i<10)
+   {
+      printf("%s\n", data.strings[i]);
+      i++;
+   }
     
-    while(*data.strings[i] == '\0'){
-        //printf("%lu", (unsigned long)data.line_count);
-        printf("%s", data.strings[i]);
-        i++;
-    }
-}*/
+}
 
 int main(int argc, char **argv) {
    FILE *f;
@@ -38,8 +39,8 @@ int main(int argc, char **argv) {
 
    if(result == 1) {
       // protocol ok
-      printf("OK");
-      //print(data);
+      printf("OK\n");
+      print();
       
       //printf("\n%lu", (unsigned long)data.line_count);
       //printf("\n%u", (unsigned)data.ok_error);

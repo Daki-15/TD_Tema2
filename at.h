@@ -14,4 +14,5 @@ typedef struct {
 
 extern DATA data; 
 uint8_t parse(char ch);
+
 #endif
