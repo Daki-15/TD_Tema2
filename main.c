@@ -10,10 +10,8 @@ void print(int N){
       if(!strcmp(data.strings[i], "<LF>")){
          printf("\n");
       } 
-      printf("%s", data.strings[i-1]);
+      printf("%s", data.strings[i-1]); // "[i-1]" just for prettier print out
    }
-   //printf("\nSIZE = %d", sizeof(data.strings)/sizeof(data.strings[0]));
-    
 }
 
 int main(int argc, char **argv) {
