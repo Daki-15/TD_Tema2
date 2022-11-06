@@ -41,12 +41,6 @@ int main(int argc, char **argv) {
          print(N);
       }
    }
-   /*
-   if(result == 2) {
-      // work in progress... read more chars 
-   }
-   */
-   // dupa ce automatul a fost setat, trebuie sa se reseteze, sa inceapa din nou din starea 0 
-   // reinitializare variabile 
+   
    return 0;
 }
