@@ -4,9 +4,11 @@
 #include "at.h"
 #include <string.h>
 #include <stdlib.h>
+#include <stdio.h>
 
 DATA data; 
 #define ERROR_STATE 10
+#define CAR_SIZE 1
 
 uint8_t parse(char ch){
    //o variabila care tine minte starea curenta a automatului
@@ -15,12 +17,11 @@ uint8_t parse(char ch){
 
    switch (current_state) {
     case 0:{
-        data.line_count= 0;
+        data.line_count = 0;
         data.ok_error = 0;
         _count = 0;
-        memset(data.strings, 0, sizeof(data.strings)/sizeof(data.strings[0])); // Restart string array
         if(ch == 13){ // CR
-            strcpy(data.strings[_count++], "<CH>");
+            data.strings[_count++][CAR_SIZE]= 13;
             current_state = 1;
         } else{
             current_state = ERROR_STATE;
@@ -29,7 +30,7 @@ uint8_t parse(char ch){
 
     case 1:{
         if(ch == 10){ // LF
-            strcpy(data.strings[_count++], "<LF>");
+            data.strings[_count++][CAR_SIZE]= 10;
             data.line_count++;
             current_state = 2;
         }
@@ -42,16 +43,16 @@ uint8_t parse(char ch){
     case 2: {
          switch (ch) {
            case 43: { // ' + '
-                strcpy(data.strings[_count++], "+");
+                //data.strings[_count++][CAR_SIZE]= 43;
                 current_state = 20;
 
             } break;
             case 79: { //' O '
-               strcpy(data.strings[_count++], "O");
+               data.strings[_count++][CAR_SIZE] = 79;
                current_state = 30;
             } break; 
             case 69: { // ' E '
-               strcpy(data.strings[_count++], "E");
+               data.strings[_count++][CAR_SIZE] = 69;
                current_state = 40;
             } break;
             default: {
@@ -63,18 +64,18 @@ uint8_t parse(char ch){
 
     case 20:{
         if(ch != 13) { // ch != CR or LF
-            strncat(data.strings[_count++], &ch, 1);
+            data.strings[_count++][CAR_SIZE] = ch;
             current_state = 20;
         }
         else{ // CR
-            strcpy(data.strings[_count++], "<CH>");
+            data.strings[_count++][CAR_SIZE]= 13;
             current_state = 21;
         }
     } break;
 
     case 21:{
         if(ch == 10){ // LF
-            strcpy(data.strings[_count++], "<LF>");
+            data.strings[_count++][CAR_SIZE]= 10;
             data.line_count++;
             current_state = 22;
         }
@@ -87,12 +88,12 @@ uint8_t parse(char ch){
     case 22:{
         switch(ch){
             case 13:{ //CR
-                strcpy(data.strings[_count++], "<CH>");
+                data.strings[_count++][CAR_SIZE]= 13;
                 current_state = 23;
 
             } break;
             case 43:{ // ' + '
-                strcpy(data.strings[_count++], "+");
+                //data.strings[_count++][CAR_SIZE]= 43;
                 current_state = 20;
 
             } break;
@@ -104,7 +105,7 @@ uint8_t parse(char ch){
 
     case 23:{
         if(ch == 10){ // LF
-            strcpy(data.strings[_count++], "<LF>");
+            data.strings[_count++][CAR_SIZE]= 10;
             data.line_count++;
             current_state = 24;
         }
@@ -117,12 +118,12 @@ uint8_t parse(char ch){
     case 24:{
         switch (ch) {
            case 79: { // ' O '
-                strcpy(data.strings[_count++], "O");
+                data.strings[_count++][CAR_SIZE] = 79;
                 current_state = 30;
 
             } break;
             case 69: { // ' E '
-               strcpy(data.strings[_count++], "E");
+               data.strings[_count++][CAR_SIZE] = 69;
                current_state = 40;
 
             } break;
@@ -135,7 +136,7 @@ uint8_t parse(char ch){
 
     case 30:{   
         if(ch == 75){ // ' K '
-            strcpy(data.strings[_count++], "K");
+            data.strings[_count++][CAR_SIZE] = 75;
             current_state = 31;
         }
         else{
@@ -146,7 +147,7 @@ uint8_t parse(char ch){
 
     case 31:{   
         if(ch == 13){ // CR
-            strcpy(data.strings[_count++], "<CH>");
+            data.strings[_count++][CAR_SIZE]= 13;
             current_state = 32;
         }
         else{
@@ -157,7 +158,7 @@ uint8_t parse(char ch){
 
     case 32:{   
         if(ch == 10){ // LF
-            strcpy(data.strings[_count++], "<LF>");
+            data.strings[_count++][CAR_SIZE]= 10;
             data.line_count++;
             current_state = 33;
         }
@@ -170,12 +171,13 @@ uint8_t parse(char ch){
     case 33:{   
         current_state = 0;
         data.ok_error = 1;
+    
         return data.ok_error;  // 1 - ok state machine
     } break;
 
     case 40:{   
         if(ch == 82){ // ' R '
-            strcpy(data.strings[_count++], "R");
+            data.strings[_count++][CAR_SIZE] = 82;
             current_state = 41;
         }
         else{
@@ -186,7 +188,7 @@ uint8_t parse(char ch){
 
     case 41:{   
         if(ch == 82){ // ' R '
-            strcpy(data.strings[_count++], "R");
+            data.strings[_count++][CAR_SIZE] = 82;
             current_state = 42;
         }
         else{
@@ -197,7 +199,7 @@ uint8_t parse(char ch){
 
     case 42:{   
         if(ch == 79){ // ' O '
-            strcpy(data.strings[_count++], "O");
+            data.strings[_count++][CAR_SIZE] = 79;
             current_state = 43;
         }
         else{
@@ -208,7 +210,7 @@ uint8_t parse(char ch){
 
     case 43:{   
         if(ch == 82){ // ' R '
-            strcpy(data.strings[_count++], "R");
+            data.strings[_count++][CAR_SIZE] = 82;
             current_state = 44;
         }
         else{
@@ -219,7 +221,7 @@ uint8_t parse(char ch){
 
     case 44:{   
         if(ch == 13){ // CR
-            strcpy(data.strings[_count++], "<CH>");
+            data.strings[_count++][CAR_SIZE]= 13;
             current_state = 32;
         }
         else{

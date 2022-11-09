@@ -7,11 +7,9 @@ void print(int N){
    
    for(int i = 0; i<N; i++ )
    {
-      if(!strcmp(data.strings[i], "<LF>")){
-         printf("\n");
-      } 
-      printf("%s", data.strings[i-1]); // "[i-1]" just for prettier print out
+      printf("%c", data.strings[i][1]); // "[i-1]" just for prettier print out
    }
+   //printf("\nC= %c N=%d", data.strings[295][1], N);
 }
 
 int main(int argc, char **argv) {
@@ -28,7 +26,6 @@ int main(int argc, char **argv) {
 
    while(!feof(f)) {
       ch = fgetc(f);
-      //printf("%c", ch);
       result = parse(ch);
       N++;
 
@@ -37,10 +34,10 @@ int main(int argc, char **argv) {
          exit(2);
       }
       if(data.ok_error == 1){
-         printf("OK");
+         //printf("OK");
          print(N);
       }
    }
-   
+
    return 0;
 }
