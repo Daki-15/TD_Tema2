@@ -1,10 +1,7 @@
 // 0 - error state machine
 // 1 - ok state machine
-// 2 - work in progress
+
 #include "at.h"
-#include <string.h>
-#include <stdlib.h>
-#include <stdio.h>
 
 DATA data; 
 #define ERROR_STATE 10
@@ -43,7 +40,6 @@ uint8_t parse(char ch){
     case 2: {
          switch (ch) {
            case 43: { // ' + '
-                //data.strings[_count++][CAR_SIZE]= 43;
                 current_state = 20;
 
             } break;
@@ -93,7 +89,6 @@ uint8_t parse(char ch){
 
             } break;
             case 43:{ // ' + '
-                //data.strings[_count++][CAR_SIZE]= 43;
                 current_state = 20;
 
             } break;
@@ -171,6 +166,7 @@ uint8_t parse(char ch){
     case 33:{   
         current_state = 0;
         data.ok_error = 1;
+        _count = 0;
     
         return data.ok_error;  // 1 - ok state machine
     } break;
